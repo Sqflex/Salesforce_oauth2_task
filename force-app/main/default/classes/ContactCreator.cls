@@ -15,7 +15,7 @@ public with sharing class ContactCreator {
         return response;
     }
     
-    public static HttpResponse leadFormData(){
+    public static leadFormData(){
         String accessToken = 'Bearer 65770c352751a8acc41a43a3bfbac451';
 
         Http http = new Http();
@@ -25,7 +25,8 @@ public with sharing class ContactCreator {
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         if(response.getStatusCode() == 200){
-            return response.getBody();
+            String json = response.getBody();
+            return json;
         }
     }
     
