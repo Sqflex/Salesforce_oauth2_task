@@ -16,9 +16,8 @@ public with sharing class ContactCreator {
     }
     
     public static HttpResponse leadFormData(){
-        Integer formId = 4501322;
         String accessToken = 'Bearer 65770c352751a8acc41a43a3bfbac451';
-        
+
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://www.formstack.com/api/v2/form/4501322/submission.json?data=true');
@@ -47,10 +46,10 @@ public with sharing class ContactCreator {
                 String newEmail = (String)emailResults.get('value');
                 //System.debug(newEmail);
                 //System.debug(newName);
-                Contact newContact =  new Contact();
-                newContact.Lastname = newName;
-                newContact.Email = newEmail;
-                insert newContact;
+                Lead newLead =  new Lead();
+                newLead.Lastname = newName;
+                newLead.Email = newEmail;
+                insert newLead;
         }
     }
 }
