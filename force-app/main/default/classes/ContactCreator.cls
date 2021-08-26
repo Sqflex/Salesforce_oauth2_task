@@ -15,7 +15,7 @@ public with sharing class ContactCreator {
         return response;
     }
     
-    public static leadFormData(){
+    public static httpResponse leadFormData(){
         String accessToken = 'Bearer 65770c352751a8acc41a43a3bfbac451';
 
         Http http = new Http();
@@ -25,17 +25,11 @@ public with sharing class ContactCreator {
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         if(response.getStatusCode() == 200){
-            String json = response.getBody();
-            return json;
-        }
-    }
-    
-    public static void addContact(){
-        Map<String, Object> submissions = (Map<String,Object>)JSON.deserializeUntyped(leadFormData());
-        //System.debug(submissions);
-        //System.debug((List<Object>)submissions.get('submissions'));
-        List<Object> SubmissionsResults = (List<Object>)submissions.get('submissions');
-                for (Integer i = 0; i < SubmissionsResults.size(); i++){
+            Map<String, Object> submissions = (Map<String,Object>)JSON.deserializeUntyped(response.getBody());
+            //System.debug(submissions);
+            //System.debug((List<Object>)submissions.get('submissions'));
+            List<Object> SubmissionsResults = (List<Object>)submissions.get('submissions');
+            for (Integer i = 0; i < SubmissionsResults.size(); i++){
                 Map<String, Object> insideData = (Map<String, Object>)SubmissionsResults[i];
                 //System.debug(insideData);
                 Map<String, Object> dataResults = (Map<String, Object>)insideData.get('data');
@@ -51,6 +45,8 @@ public with sharing class ContactCreator {
                 newLead.Lastname = newName;
                 newLead.Email = newEmail;
                 insert newLead;
+            }
         }
+        return response;    
     }
 }
