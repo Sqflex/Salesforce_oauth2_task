@@ -18,7 +18,6 @@ public with sharing class ContactCreator {
     
     public static httpResponse leadFormData(Lead_API__mdt customLead){
         String accessToken = 'Bearer 65770c352751a8acc41a43a3bfbac451';
-
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://www.formstack.com/api/v2/form/4501322/submission.json?data=true');
@@ -37,14 +36,17 @@ public with sharing class ContactCreator {
                 //System.debug(dataResults);
                 Map<String, Object> nameResults = (Map<String, Object>)dataResults.get('114477991');
                 Map<String, Object> emailResults = (Map<String, Object>)dataResults.get('114353027');
+                Map<String, Object> companyResults = (Map<String, Object>)dataResults.get('114530260');
                 //System.debug(nameResults);
                 String newName = (String)nameResults.get('value');
                 String newEmail = (String)emailResults.get('value');
+                String newCompany = (String)companyResults.get('value');
                 //System.debug(newEmail);
                 //System.debug(newName);
                 Lead newLead =  new Lead();
                 newLead.Lastname = newName;
                 newLead.Email = newEmail;
+                newLead.Company = newCompany;
                 insert newLead;
             }
         }
