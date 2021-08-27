@@ -1,12 +1,16 @@
-public with sharing class ContactCreator {
+public with sharing class ContactCreator implements UploadMetadata{
     public static HttpResponse formstackAuth() {
-        Integer clientId = 29864;
-        String redirectStr = 'https://SQflex.formstack.com/forms/lead_form';
-        String responseCode = 'code';
+
+        UploadMetadata obj = new UploadMetadata();
+        Lead_api__mdt customMetadata= obj.prepareCustomMetadataRecord();
+
+        //Integer clientId = 29864;
+        //String redirectStr = 'https://SQflex.formstack.com/forms/lead_form';
+        //String responseCode = 'code';
 
         Http http = new Http();
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://www.formstack.com/api/v2/oauth2/authorize?client_id=' + clientId + '&redirect_uri=' + redirectStr + '&response_type=' + responseCode );
+        request.setEndpoint('https://www.formstack.com/api/v2/oauth2/authorize?client_id=' + customMetadata.Client_Id__c + '&redirect_uri=' + customMetadata.Redirect_URL__c + '&response_type=' + customMetadata.Response_Type__c );
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         if(response.getStatusCode() == 200){
@@ -16,12 +20,10 @@ public with sharing class ContactCreator {
     }
     
     public static httpResponse leadFormData(){
-        String accessToken = 'Bearer 65770c352751a8acc41a43a3bfbac451';
-
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://www.formstack.com/api/v2/form/4501322/submission.json?data=true');
-        request.setHeader('Authorization', accessToken);
+        request.setHeader('Authorization', customMetadata.Access_Token__c);
         request.setMethod('GET');
         HttpResponse response = http.send(request);
         if(response.getStatusCode() == 200){
